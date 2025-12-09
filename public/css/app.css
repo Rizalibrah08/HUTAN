@@ -150,12 +150,12 @@ body {
 }
 
 .nav .col2 .search input {
-    padding: 0.8rem 1.5rem; /* Tambah padding horizontal */
+    padding: 0.8rem 2.5rem; /* Tambah padding horizontal */
     padding-left: 3.5rem; /* Geser icon lebih ke kanan */
     border: 2px solid var(--sage);
     border-radius: 35px;
     background-color: rgba(255, 255, 255, 0.9); /* Sedikit transparan */
-    width: 250px; /* Lebarkan sedikit */
+    width: 500px; /* Lebarkan sedikit */
     font-size: 1rem;
     transition: all 0.3s ease;
     color: var(--dark-green);
@@ -171,7 +171,7 @@ body {
     outline: none;
     border-color: var(--green);
     background-color: rgba(255, 255, 255, 1); /* Lebih solid saat focus */
-    width: 280px; /* Lebarkan saat focus */
+    width: 580px; /* Lebarkan saat focus */
     box-shadow: 0 0 0 4px rgba(164, 190, 123, 0.3);
 }
 
@@ -313,34 +313,50 @@ body {
 
 /* Container untuk konten utama */
 .content-container {
-    max-width: 1300px;
-    margin: 40px auto;
-    padding: 0 25px;
-    text-align: center;
     flex: 1;
+    display: flex;
+    width: 100%;
 }
 
 .content-box {
-    background-color: var(--white);
-    padding: 3rem;
-    border-radius: 20px;
-    box-shadow: 0 10px 35px rgba(40, 84, 48, 0.1);
-    border: 2px solid var(--sage);
-    margin-top: 20px;
+    flex: 1;
+    display: flex;
+    width: 100%;
 }
 
-.content-box h1 {
-    color: var(--dark-green);
-    margin-bottom: 1rem;
-    font-size: 2.5rem;
+.gambar {
+    background-image: url("/images/bg_b1a8a31387.webp");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
 }
 
-.content-box p {
-    color: var(--green);
-    font-size: 1.1rem;
-    line-height: 1.6;
-    max-width: 800px;
-    margin: 0 auto;
+.gambar::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.3);
+    z-index: 1;
+}
+
+.gambar h2 {
+    color: white;
+    font-size: 4rem;
+    font-weight: 700;
+    text-align: center;
+    z-index: 2;
+    position: relative;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+    letter-spacing: 2px;
 }
 
 /* ===== FOOTER STYLES ===== */
