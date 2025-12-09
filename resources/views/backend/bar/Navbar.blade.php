@@ -13,9 +13,6 @@
             <div class="search">
                 <input type="text" placeholder="Cari sesuatu...">
             </div>
-            <div class="login">
-                <a href="/login">Login</a>
-            </div>
         </div>
     </div>
 </div>
