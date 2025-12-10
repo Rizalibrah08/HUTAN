@@ -1,4 +1,4 @@
-<div class="nav-container">
+<div class="nav-container nav-transparent">
     <div class="nav">
         <div class="col1">
             <a href="#">

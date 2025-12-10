@@ -38,11 +38,26 @@ body {
     top: 0;
     left: 0;
     z-index: 1000;
-    background: rgba(229, 217, 182, 0.95); /* Transparan dengan warna cream */
+    background: rgba(229, 217, 182, 0.95); /* default solid */
     backdrop-filter: blur(10px); /* Efek blur untuk transparansi */
     -webkit-backdrop-filter: blur(10px); /* Untuk browser Safari */
     border-bottom: 2px solid rgba(164, 190, 123, 0.5);
     box-shadow: 0 4px 20px rgba(40, 84, 48, 0.1);
+    transition: background-color 250ms ease, box-shadow 250ms ease, border-color 250ms ease, color 250ms ease;
+}
+
+/* Transparent variant when over hero image */
+.nav-container.nav-transparent {
+    background: transparent;
+    border-bottom: none;
+    box-shadow: none;
+}
+
+/* Solid variant when scrolled */
+.nav-container.nav-solid {
+    background: rgba(229, 217, 182, 0.98);
+    border-bottom: 2px solid rgba(164, 190, 123, 0.55);
+    box-shadow: 0 6px 26px rgba(40, 84, 48, 0.12);
 }
 
 /* Navbar utama */
@@ -63,9 +78,11 @@ body {
     border: none;
 }
 
-.nav-container:hover {
+/* Only apply hover effect when navbar is solid, not transparent */
+.nav-container.nav-solid:hover {
     backdrop-filter: blur(12px);
-    background: rgba(229, 217, 182, 0.98);
+    background: rgba(229, 217, 182, 0.99);
+    box-shadow: 0 8px 32px rgba(40, 84, 48, 0.15);
 }
 
 /* Bagian kiri navbar */
@@ -203,6 +220,27 @@ body {
     margin-left: 10px; /* Tambah margin kiri */
 }
 
+/* Color adjustments for transparent navbar to ensure readability */
+.nav-container.nav-transparent .nav a,
+.nav-container.nav-transparent .nav .col2 .login a,
+.nav-container.nav-transparent .nav .col1 a {
+    color: #ffffff;
+}
+
+/* Adjust login button when navbar is transparent */
+.nav-container.nav-transparent .nav .col2 .login a {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255,255,255,0.18);
+    color: #ffffff;
+    box-shadow: none;
+}
+
+.nav-container.nav-solid .nav a,
+.nav-container.nav-solid .nav .col2 .login a,
+.nav-container.nav-solid .nav .col1 a {
+    color: var(--dark-green);
+}
+
 .nav .col2 .login a:hover {
     transform: translateY(-3px);
     box-shadow: 0 8px 25px rgba(95, 141, 78, 0.4);
@@ -313,14 +351,15 @@ body {
 
 /* Container untuk konten utama */
 .content-container {
-    flex: 1;
-    display: flex;
+    /* flex: 1; */
+    display: block;
     width: 100%;
+    margin: -85px auto 0 auto;
 }
 
 .content-box {
-    flex: 1;
-    display: flex;
+    /* flex: 1; */
+    display: block;
     width: 100%;
 }
 
@@ -357,6 +396,213 @@ body {
     position: relative;
     text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
     letter-spacing: 2px;
+}
+
+/* ===== NEWS SECTION STYLES ===== */
+
+.news-section {
+    padding: 4rem 2rem;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    max-width: 1400px;
+    margin: 0 auto;
+    margin-top: 50px;
+    border-radius: 15px;
+}
+
+.news-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 3rem;
+}
+
+.news-header h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--dark-green);
+    margin: 0;
+}
+
+.btn-more {
+    padding: 0.8rem 2rem;
+    background-color: var(--green);
+    color: white;
+    text-decoration: none;
+    border-radius: 25px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border: 2px solid var(--green);
+}
+
+.btn-more:hover {
+    background-color: var(--dark-green);
+    border-color: var(--dark-green);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(95, 141, 78, 0.3);
+}
+
+/* News Grid Slider Container */
+.news-grid {
+    position: relative;
+    overflow: hidden;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.news-grid-wrapper {
+    display: flex;
+    gap: 2rem;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding-bottom: 1rem;
+    scroll-snap-type: x mandatory;
+}
+
+.news-grid-wrapper::-webkit-scrollbar {
+    height: 8px;
+}
+
+.news-grid-wrapper::-webkit-scrollbar-track {
+    background: rgba(164, 190, 123, 0.1);
+    border-radius: 10px;
+}
+
+.news-grid-wrapper::-webkit-scrollbar-thumb {
+    background: var(--sage);
+    border-radius: 10px;
+}
+
+.news-grid-wrapper::-webkit-scrollbar-thumb:hover {
+    background: var(--green);
+}
+
+/* Individual News Card */
+.news-card {
+    min-width: 350px;
+    max-width: 350px;
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    scroll-snap-align: start;
+    cursor: pointer;
+}
+
+.news-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 35px rgba(95, 141, 78, 0.2);
+}
+
+.news-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    display: block;
+}
+
+.news-body {
+    padding: 1.5rem;
+}
+
+.news-tag {
+    display: inline-block;
+    background-color: var(--sage);
+    color: var(--dark-green);
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 0.8rem;
+    margin: 0 0 0.8rem 0;
+}
+
+.news-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--dark-green);
+    margin-bottom: 1rem;
+    line-height: 1.4;
+    min-height: 3rem;
+}
+
+.news-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.9rem;
+    color: #999;
+    border-top: 1px solid #eee;
+    padding-top: 1rem;
+}
+
+.news-footer .views {
+    color: var(--green);
+    font-weight: 600;
+}
+
+/* Navigation Buttons untuk Slider */
+.slider-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(95, 141, 78, 0.8);
+    color: white;
+    border: none;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+
+.slider-nav:hover {
+    background-color: var(--dark-green);
+    box-shadow: 0 5px 20px rgba(95, 141, 78, 0.3);
+}
+
+.slider-nav.prev {
+    left: 5px;
+}
+
+.slider-nav.next {
+    right: 5px;
+}
+
+.lapor-konten{
+    display: flex;
+}
+
+.lapor-gambar img{
+    width: 500px;
+    height: 300px;
+    margin-right: 50px; 
+    margin-left: 10px;
+    border-radius: 15px;
+}
+
+.btn-lapor{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 50px;
+    flex-direction: column;
+}
+
+.btn-lapor a{
+    padding: 20px 250px;
+    color: white;
+    font-size: large;
+    text-decoration: none;
+    border-radius: 25px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    margin-top: 100px;
 }
 
 /* ===== FOOTER STYLES ===== */
@@ -487,5 +733,55 @@ footer .bg-secondary {
 
     .content-box {
         padding: 1.2rem;
+    }
+
+    .news-section {
+        padding: 2rem 1rem;
+    }
+
+    .news-card {
+        min-width: 280px;
+        max-width: 280px;
+    }
+
+    .slider-nav {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+    }
+}
+
+/* Responsive News Section */
+@media (max-width: 768px) {
+    .news-section {
+        padding: 2.5rem 1.5rem;
+    }
+
+    .news-header {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+
+    .news-header h2 {
+        font-size: 2rem;
+    }
+
+    .news-card {
+        min-width: 320px;
+        max-width: 320px;
+    }
+
+    .slider-nav {
+        width: 45px;
+        height: 45px;
+        font-size: 1.2rem;
+    }
+}
+
+/* Tablet and up */
+@media (min-width: 769px) {
+    .news-section {
+        padding: 3rem 2.5rem;
     }
 }
