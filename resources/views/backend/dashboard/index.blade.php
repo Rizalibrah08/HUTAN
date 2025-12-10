@@ -27,7 +27,7 @@
                 <div class="news-section">
                 <div class="news-header">
                     <h2>Berita Terkini</h2>
-                    <a href="#" class="btn-more">Berita Lainnya</a>
+                    <a href="" class="btn-more">Berita Lainnya</a>
                 </div>
 
                 <div class="news-grid">
