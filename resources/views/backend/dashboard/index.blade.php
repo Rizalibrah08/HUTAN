@@ -19,126 +19,150 @@
             @if(!trim($__env->yieldContent('content')))
             <div>
                 <div class="gambar">
-                    {{-- <img src="{{ asset('images/bg_b1a8a31387.webp') }}" alt="Dashboard Forest" class="img-fluid"> --}}
                     <h2>#JAGALINGKUNGANKITA</h2>
                 </div>
 
-                {{-- Placeholder for berita section --}}
-                <div class="news-section">
-                <div class="news-header">
-                    <h2>Berita Terkini</h2>
-                    <a href="" class="btn-more">Berita Lainnya</a>
-                </div>
-
-                <div class="news-grid">
-                    <button class="slider-nav prev" id="prevBtn">❮</button>
-                    <button class="slider-nav next" id="nextBtn">❯</button>
-
-                    <div class="news-grid-wrapper" id="newsSlider">
-                        <!-- CARD 1 -->
-                        <div class="news-card">
-                            <img src="https://via.placeholder.com/350x200?text=Berita+1" alt="Berita 1">
-                            <div class="news-body">
-                                <p class="news-tag">Siaran Pers</p>
-                                <h3 class="news-title">
-                                    Gajah Dukung Pemulihan Pasca Banjir di Pidie Jaya, Aceh.
-                                </h3>
-
-                                <div class="news-footer">
-                                    <span>Selasa, 09 Des 2025</span>
-                                    <span class="views">👁️ 365</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- CARD 2 -->
-                        <div class="news-card">
-                            <img src="https://via.placeholder.com/350x200?text=Berita+2" alt="Berita 2">
-                            <div class="news-body">
-                                <p class="news-tag">Siaran Pers</p>
-                                <h3 class="news-title">
-                                    Tanggapan atas Temuan Kayu di Wilayah Lampung
-                                </h3>
-
-                                <div class="news-footer">
-                                    <span>Selasa, 09 Des 2025</span>
-                                    <span class="views">👁️ 104</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- CARD 3 -->
-                        <div class="news-card">
-                            <img src="https://via.placeholder.com/350x200?text=Berita+3" alt="Berita 3">
-                            <div class="news-body">
-                                <p class="news-tag">Siaran Pers</p>
-                                <h3 class="news-title">
-                                    Gajah Terlatih Diterjunkan Dukung Pemulihan Pasca Banjir
-                                </h3>
-
-                                <div class="news-footer">
-                                    <span>Senin, 08 Des 2025</span>
-                                    <span class="views">👁️ 178</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- CARD 3 -->
-                        <div class="news-card">
-                            <img src="https://via.placeholder.com/350x200?text=Berita+4" alt="Berita 4">
-                            <div class="news-body">
-                                <p class="news-tag">Siaran Pers</p>
-                                <h3 class="news-title">
-                                    Menhut Raja Antoni: Mu'alimin Harus Tetap Jadi Benteng Ilmu
-                                </h3>
-
-                                <div class="news-footer">
-                                    <span>Minggu, 07 Des 2025</span>
-                                    <span class="views">👁️ 119</span>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-
-                {{-- Placeholder for layanan section --}}
-
-            <div class="news-section">
-                <div class="news-header">
-                    <h2>Pengaduan Online Rakyat</h2>
-                </div>
-
-                <div class="lapor-konten">    
-                    {{-- gambar --}}
-                    <div class="lapor-gambar">
-                        <img src="{{ asset('images/40d1cf47b52f5d465e5acaeba6ad9fc9.jpg') }}" alt="">
+                <!-- News Slider Section -->
+                <div class="home-news-section">
+                    <div class="home-news-header">
+                        <h2>Berita Terkini</h2>
+                        <a href="/berita" class="btn-more">Lihat Semua Berita</a>
                     </div>
 
-                    <div class="lapor-ajak">
-                        {{-- text --}}
-                        <div class="box-lapor-text">
-                            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsum suscipit eum quas nisi numquam similique eius, vel inventore enim natus praesentium et, reprehenderit sunt itaque dolores officia non fuga. Fugit.</p>
-                        </div>
-                        {{-- lapor --}}
-                        <div class="btn-lapor">
-                            <a href="/laporpak" class="btn btn-danger ">Lapor Pak!</a>
+                    <div class="slider-news-grid">
+                        <button class="slider-nav prev" id="prevBtn">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <button class="slider-nav next" id="nextBtn">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
 
+                        <div class="slider-news-wrapper" id="newsSlider">
+                            <!-- CARD 1 -->
+                            <div class="slider-news-card">
+                                <img src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Berita 1">
+                                <div class="slider-news-body">
+                                    <span class="slider-news-tag">Siaran Pers</span>
+                                    <h3 class="slider-news-title">
+                                        Gajah Dukung Pemulihan Pasca Banjir di Pidie Jaya, Aceh.
+                                    </h3>
+                                    <div class="slider-news-footer">
+                                        <span>09 Des 2025</span>
+                                        <span class="slider-views">
+                                            <i class="far fa-eye"></i> 365
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- CARD 2 -->
+                            <div class="slider-news-card">
+                                <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Berita 2">
+                                <div class="slider-news-body">
+                                    <span class="slider-news-tag">Siaran Pers</span>
+                                    <h3 class="slider-news-title">
+                                        Tanggapan atas Temuan Kayu di Wilayah Lampung
+                                    </h3>
+                                    <div class="slider-news-footer">
+                                        <span>09 Des 2025</span>
+                                        <span class="slider-views">
+                                            <i class="far fa-eye"></i> 104
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- CARD 3 -->
+                            <div class="slider-news-card">
+                                <img src="https://images.unsplash.com/photo-1425913397330-cf8af2ff40a1?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Berita 3">
+                                <div class="slider-news-body">
+                                    <span class="slider-news-tag">Siaran Pers</span>
+                                    <h3 class="slider-news-title">
+                                        Gajah Terlatih Diterjunkan Dukung Pemulihan Pasca Banjir
+                                    </h3>
+                                    <div class="slider-news-footer">
+                                        <span>08 Des 2025</span>
+                                        <span class="slider-views">
+                                            <i class="far fa-eye"></i> 178
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- CARD 4 -->
+                            <div class="slider-news-card">
+                                <img src="https://images.unsplash.com/photo-1501854140801-50d01698950b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Berita 4">
+                                <div class="slider-news-body">
+                                    <span class="slider-news-tag">Siaran Pers</span>
+                                    <h3 class="slider-news-title">
+                                        Menhut Raja Antoni: Mu'alimin Harus Tetap Jadi Benteng Ilmu
+                                    </h3>
+                                    <div class="slider-news-footer">
+                                        <span>07 Des 2025</span>
+                                        <span class="slider-views">
+                                            <i class="far fa-eye"></i> 119
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- CARD 5 -->
+                            <div class="slider-news-card">
+                                <img src="https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Berita 5">
+                                <div class="slider-news-body">
+                                    <span class="slider-news-tag">Konservasi</span>
+                                    <h3 class="slider-news-title">
+                                        Program Reboisasi Sukses Tanam 10.000 Pohon di Jawa Barat
+                                    </h3>
+                                    <div class="slider-news-footer">
+                                        <span>06 Des 2025</span>
+                                        <span class="slider-views">
+                                            <i class="far fa-eye"></i> 245
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-                {{-- Placeholder for info section --}}
-                
-                {{-- Placeholder for kalender section --}}
+                <!-- Laporan Section -->
+                <div class="lapor-section">
+                    <div class="lapor-header">
+                        <h2>Pengaduan Online Rakyat</h2>
+                    </div>
+
+                    <div class="lapor-konten">    
+                        <div class="lapor-gambar">
+                            <img src="{{ asset('images/40d1cf47b52f5d465e5acaeba6ad9fc9.jpg') }}" alt="Lapor Pak">
+                        </div>
+
+                        <div class="lapor-ajak">
+                            <div class="box-lapor-text">
+                                <p>
+                                    Sampaikan keluhan dan laporan Anda mengenai kerusakan lingkungan 
+                                    dengan mudah dan cepat. Sistem kami akan memproses laporan Anda 
+                                    dan menindaklanjuti dengan pihak berwenang terkait. 
+                                    Bersama kita jaga kelestarian lingkungan untuk generasi mendatang.
+                                </p>
+                                <p class="text-muted">
+                                    <i class="fas fa-shield-alt me-2"></i>
+                                    Laporan Anda akan dijaga kerahasiaannya
+                                </p>
+                            </div>
+                            <div class="btn-lapor">
+                                <a href="/laporpak" class="btn-lapor-btn">
+                                    <i class="fas fa-bullhorn me-2"></i>
+                                    Lapor Pak!
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 
             @endif
         </div>
     </div>
-    </div>
-    
 
     <!-- Footer -->
     @include('backend.bar.footer')
@@ -151,21 +175,58 @@
         const newsSlider = document.getElementById('newsSlider');
         const prevBtn = document.getElementById('prevBtn');
         const nextBtn = document.getElementById('nextBtn');
+        const cards = document.querySelectorAll('.slider-news-card');
 
-        // Scroll amount per click (350px card + 32px gap)
-        const scrollAmount = 382;
-
-        prevBtn.addEventListener('click', () => {
-            newsSlider.scrollBy({
-                left: -scrollAmount,
-                behavior: 'smooth'
+        if (newsSlider && cards.length > 0) {
+            const cardWidth = cards[0].offsetWidth + 32; // width + gap
+            
+            prevBtn.addEventListener('click', () => {
+                newsSlider.scrollBy({
+                    left: -cardWidth,
+                    behavior: 'smooth'
+                });
             });
-        });
 
-        nextBtn.addEventListener('click', () => {
-            newsSlider.scrollBy({
-                left: scrollAmount,
-                behavior: 'smooth'
+            nextBtn.addEventListener('click', () => {
+                newsSlider.scrollBy({
+                    left: cardWidth,
+                    behavior: 'smooth'
+                });
+            });
+
+            // Auto-hide buttons when at edges
+            const updateNavButtons = () => {
+                const scrollLeft = newsSlider.scrollLeft;
+                const scrollWidth = newsSlider.scrollWidth;
+                const clientWidth = newsSlider.clientWidth;
+                
+                prevBtn.style.opacity = scrollLeft <= 10 ? '0.5' : '0.9';
+                nextBtn.style.opacity = scrollLeft + clientWidth >= scrollWidth - 10 ? '0.5' : '0.9';
+            };
+
+            newsSlider.addEventListener('scroll', updateNavButtons);
+            updateNavButtons();
+        }
+
+        // Card click functionality
+        document.querySelectorAll('.slider-news-card').forEach(card => {
+            card.addEventListener('click', function() {
+                // Add visual feedback
+                this.style.transform = 'scale(0.98)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 150);
+                
+                // Here you can add navigation to article detail
+                // window.location.href = '/artikel/1';
+            });
+            
+            card.addEventListener('mouseenter', function() {
+                this.style.zIndex = '5';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.zIndex = '1';
             });
         });
         
@@ -187,13 +248,11 @@
 
         // Initialize and bind
         document.addEventListener('DOMContentLoaded', () => {
-            // set initial state
             handleNavbarToggle();
         });
 
-        window.addEventListener('scroll', () => {
-            handleNavbarToggle();
-        });
+        window.addEventListener('scroll', handleNavbarToggle);
+        window.addEventListener('resize', handleNavbarToggle);
     </script>
 </body>
 </html>
