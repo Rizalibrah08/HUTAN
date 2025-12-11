@@ -6,13 +6,57 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-    <title>@yield('title', 'Dashboard') - Hutan</title>
+    <title>Berita Lingkungan - Hutan</title>
     <style>
         /* BERITA PAGE STYLES */
         .berita-container {
             max-width: 1400px;
             margin: 3rem auto;
             padding: 0 2rem;
+        }
+
+        /* Header dengan tombol tambah berita */
+        .berita-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid rgba(164, 190, 123, 0.2);
+        }
+
+        .berita-header h1 {
+            font-size: 2rem;
+            color: var(--dark-green);
+            font-weight: 700;
+            margin: 0;
+        }
+
+        /* Tombol Tambah Berita untuk Admin */
+        .btn-tambah-berita {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0.8rem 1.5rem;
+            background: linear-gradient(135deg, var(--green) 0%, var(--dark-green) 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(95, 141, 78, 0.3);
+        }
+
+        .btn-tambah-berita:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(95, 141, 78, 0.4);
+            background: linear-gradient(135deg, var(--dark-green) 0%, var(--green) 100%);
+        }
+
+        .btn-tambah-berita i {
+            font-size: 1.1rem;
         }
 
         /* Two Column Layout */
@@ -79,9 +123,54 @@
             font-size: 0.9rem;
         }
 
+        /* Statistik info */
+        .statistik-info {
+            padding: 1rem 0;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.8rem 0;
+            color: var(--dark-green);
+        }
+
+        .stat-item i {
+            color: var(--green);
+            font-size: 1.2rem;
+            width: 24px;
+        }
+
         /* Content Area - 75% */
         .berita-content {
             flex: 1;
+        }
+
+        /* No berita message */
+        .no-berita {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        }
+        
+        .no-berita-icon {
+            font-size: 4rem;
+            color: var(--sage);
+            margin-bottom: 1.5rem;
+        }
+        
+        .no-berita h3 {
+            color: var(--dark-green);
+            margin-bottom: 1rem;
+        }
+        
+        .no-berita p {
+            color: #666;
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
         }
 
         /* Grid Articles - 3 columns */
@@ -102,11 +191,54 @@
             display: flex;
             flex-direction: column;
             height: 100%;
+            position: relative;
         }
 
         .article-card:hover {
             transform: translateY(-8px);
             box-shadow: 0 12px 35px rgba(95, 141, 78, 0.15);
+        }
+
+        /* Overlay action untuk admin */
+        .article-actions {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            gap: 0.5rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 2;
+        }
+
+        .article-card:hover .article-actions {
+            opacity: 1;
+        }
+
+        .action-btn {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+            color: var(--dark-green);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+            text-decoration: none;
+        }
+
+        .action-btn.edit:hover {
+            background: var(--green);
+            color: white;
+        }
+
+        .action-btn.delete:hover {
+            background: #dc3545;
+            color: white;
         }
 
         .article-image {
@@ -147,6 +279,28 @@
             overflow: hidden;
             text-overflow: ellipsis;
             min-height: 4.2em;
+        }
+
+        .article-title a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .article-title a:hover {
+            color: var(--green);
+        }
+
+        .article-excerpt {
+            font-size: 0.95rem;
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            min-height: 4.5em;
         }
 
         .article-footer {
@@ -282,6 +436,12 @@
             .berita-content {
                 width: 100%;
             }
+            
+            .berita-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
         }
 
         @media (max-width: 768px) {
@@ -347,193 +507,159 @@
                     <h2>BERITA</h2>
                 </div>
 
-                <!-- UPDATE CODE DIBAWAH INI -->
                 <div class="berita-container">
+                    <!-- Header dengan tombol tambah berita untuk admin -->
+                    <div class="berita-header">
+                        <h1>Berita Terkini</h1>
+                        
+                        <!-- Tombol hanya muncul jika admin sudah login -->
+                        @auth
+                            @if(auth()->user()->role === 'admin')
+                                <a href="{{ route('berita.create') }}" class="btn-tambah-berita">
+                                    <i class="fas fa-plus"></i>
+                                    Tambah Berita
+                                </a>
+                            @endif
+                        @endauth
+                    </div>
+
                     <div class="berita-layout">
                         <!-- Sidebar - 25% -->
                         <aside class="berita-sidebar">
                             <div class="sidebar-card">
                                 <h3 class="sidebar-title">Kategori</h3>
                                 <ul class="sidebar-menu">
-                                    <li><a href="#" class="active">Semua Kategori</a></li>
-                                    <li><a href="#">Perubahan Iklim</a></li>
-                                    <li><a href="#">Konservasi</a></li>
-                                    <li><a href="#">Polusi</a></li>
-                                    <li><a href="#">Regulasi</a></li>
-                                    <li><a href="#">Teknologi Hijau</a></li>
-                                    <li><a href="#">Keanekaragaman Hayati</a></li>
+                                    <li><a href="{{ route('berita.index') }}" class="{{ !request('kategori') ? 'active' : '' }}">Semua Kategori</a></li>
+                                    <li><a href="?kategori=Perubahan Iklim" class="{{ request('kategori') == 'Perubahan Iklim' ? 'active' : '' }}">Perubahan Iklim</a></li>
+                                    <li><a href="?kategori=Konservasi" class="{{ request('kategori') == 'Konservasi' ? 'active' : '' }}">Konservasi</a></li>
+                                    <li><a href="?kategori=Polusi" class="{{ request('kategori') == 'Polusi' ? 'active' : '' }}">Polusi</a></li>
+                                    <li><a href="?kategori=Regulasi" class="{{ request('kategori') == 'Regulasi' ? 'active' : '' }}">Regulasi</a></li>
+                                    <li><a href="?kategori=Teknologi Hijau" class="{{ request('kategori') == 'Teknologi Hijau' ? 'active' : '' }}">Teknologi Hijau</a></li>
+                                    <li><a href="?kategori=Keanekaragaman Hayati" class="{{ request('kategori') == 'Keanekaragaman Hayati' ? 'active' : '' }}">Keanekaragaman Hayati</a></li>
                                 </ul>
                             </div>
                             
                             <div class="sidebar-card">
-                                <h3 class="sidebar-title">Menu</h3>
-                                <ul class="sidebar-menu">
-                                    <li><a href="#" class="active">
-                                        <span>Artikel Terbaru</span>
-                                        <i class="fas fa-chevron-right"></i>
-                                    </a></li>
-                                    <li><a href="#">
-                                        <span>Paling Banyak Dilihat</span>
-                                        <i class="fas fa-chevron-right"></i>
-                                    </a></li>
-                                    <li><a href="#">
-                                        <span>Artikel Terpopuler</span>
-                                        <i class="fas fa-chevron-right"></i>
-                                    </a></li>
-                                    <li><a href="#">
-                                        <span>Editor's Pick</span>
-                                        <i class="fas fa-chevron-right"></i>
-                                    </a></li>
-                                </ul>
+                                <h3 class="sidebar-title">Statistik</h3>
+                                <div class="statistik-info">
+                                    <div class="stat-item">
+                                        <i class="fas fa-newspaper"></i>
+                                        <span>Total Berita: {{ $berita->total() }}</span>
+                                    </div>
+                                    <div class="stat-item">
+                                        <i class="fas fa-eye"></i>
+                                        <span>Total Dilihat: {{ number_format($totalViews ?? 0) }}</span>
+                                    </div>
+                                </div>
                             </div>
                         </aside>
 
                         <!-- Content Area - 75% -->
                         <main class="berita-content">
-                            <!-- Grid Articles - 3 columns -->
-                            <div class="articles-grid">
-                                <!-- Article 1 -->
-                                <article class="article-card">
-                                    <img src="https://images.unsplash.com/photo-1611273426858-450d8e3c9fce?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Forest Conservation" class="article-image">
-                                    <div class="article-body">
-                                        <span class="article-category">Konservasi</span>
-                                        <h3 class="article-title">Program Reforestasi Berhasil Tanam 1 Juta Pohon di Kalimantan</h3>
-                                        <div class="article-footer">
-                                            <span class="article-date">
-                                                <i class="far fa-calendar"></i>
-                                                15 Jan 2024
-                                            </span>
-                                            <span class="article-views">
-                                                <i class="far fa-eye"></i>
-                                                2.4K
-                                            </span>
+                            @if($berita->count() > 0)
+                                <!-- Grid Articles - 3 columns -->
+                                <div class="articles-grid">
+                                    @foreach($berita as $item)
+                                    <article class="article-card">
+                                        <!-- Tombol edit/hapus hanya untuk admin -->
+                                        @auth
+                                            @if(auth()->user()->role === 'admin')
+                                                <div class="article-actions">
+                                                    <a href="{{ route('berita.edit', $item->id) }}" class="action-btn edit">
+                                                        <i class="fas fa-edit"></i>
+                                                    </a>
+                                                    <button class="action-btn delete" onclick="hapusBerita({{ $item->id }})">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </div>
+                                            @endif
+                                        @endauth
+                                        
+                                        <img src="{{ $item->gambar ? asset('storage/' . $item->gambar) : 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80' }}" 
+                                             alt="{{ $item->judul }}" 
+                                             class="article-image">
+                                        <div class="article-body">
+                                            <span class="article-category">{{ $item->kategori }}</span>
+                                            <h3 class="article-title">
+                                                <a href="{{ route('berita.show', $item->id) }}">
+                                                    {{ $item->judul }}
+                                                </a>
+                                            </h3>
+                                            <p class="article-excerpt">{{ $item->excerpt }}</p>
+                                            <div class="article-footer">
+                                                <span class="article-date">
+                                                    <i class="far fa-calendar"></i>
+                                                    {{ $item->created_at->format('d M Y') }}
+                                                </span>
+                                                <span class="article-views">
+                                                    <i class="far fa-eye"></i>
+                                                    {{ number_format($item->views) }}
+                                                </span>
+                                            </div>
                                         </div>
-                                    </div>
-                                </article>
+                                    </article>
+                                    @endforeach
+                                </div>
 
-                                <!-- Article 2 -->
-                                <article class="article-card">
-                                    <img src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Climate Change" class="article-image">
-                                    <div class="article-body">
-                                        <span class="article-category">Perubahan Iklim</span>
-                                        <h3 class="article-title">Riset Terbaru: Dampak Perubahan Iklim Terhadap Ekosistem Pesisir Indonesia</h3>
-                                        <div class="article-footer">
-                                            <span class="article-date">
-                                                <i class="far fa-calendar"></i>
-                                                12 Jan 2024
-                                            </span>
-                                            <span class="article-views">
-                                                <i class="far fa-eye"></i>
-                                                3.1K
-                                            </span>
-                                        </div>
+                                <!-- Pagination -->
+                                @if($berita->hasPages())
+                                <div class="berita-pagination">
+                                    @if($berita->onFirstPage())
+                                        <span class="pagination-prev disabled">
+                                            <i class="fas fa-chevron-left"></i>
+                                            Sebelumnya
+                                        </span>
+                                    @else
+                                        <a href="{{ $berita->previousPageUrl() }}" class="pagination-prev">
+                                            <i class="fas fa-chevron-left"></i>
+                                            Sebelumnya
+                                        </a>
+                                    @endif
+                                    
+                                    <nav aria-label="Page navigation">
+                                        <ul class="pagination-nav">
+                                            @for($page = 1; $page <= $berita->lastPage(); $page++)
+                                                <li class="page-item {{ $berita->currentPage() == $page ? 'active' : '' }}">
+                                                    <a class="page-link" href="{{ $berita->url($page) }}">{{ $page }}</a>
+                                                </li>
+                                            @endfor
+                                        </ul>
+                                    </nav>
+                                    
+                                    @if($berita->hasMorePages())
+                                        <a href="{{ $berita->nextPageUrl() }}" class="pagination-next">
+                                            Berikutnya
+                                            <i class="fas fa-chevron-right"></i>
+                                        </a>
+                                    @else
+                                        <span class="pagination-next disabled">
+                                            Berikutnya
+                                            <i class="fas fa-chevron-right"></i>
+                                        </span>
+                                    @endif
+                                </div>
+                                @endif
+                            @else
+                                <!-- Jika tidak ada berita -->
+                                <div class="no-berita">
+                                    <div class="no-berita-icon">
+                                        <i class="fas fa-newspaper"></i>
                                     </div>
-                                </article>
-
-                                <!-- Article 3 -->
-                                <article class="article-card">
-                                    <img src="https://images.unsplash.com/photo-1589652043056-ba1a2c4830a5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Pollution" class="article-image">
-                                    <div class="article-body">
-                                        <span class="article-category">Polusi</span>
-                                        <h3 class="article-title">Inovasi Teknologi Pengolahan Sampah Plastik di Kota Metropolitan</h3>
-                                        <div class="article-footer">
-                                            <span class="article-date">
-                                                <i class="far fa-calendar"></i>
-                                                10 Jan 2024
-                                            </span>
-                                            <span class="article-views">
-                                                <i class="far fa-eye"></i>
-                                                1.8K
-                                            </span>
-                                        </div>
-                                    </div>
-                                </article>
-
-                                <!-- Article 4 -->
-                                <article class="article-card">
-                                    <img src="https://images.unsplash.com/photo-1532094349884-543bc11b234d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Green Technology" class="article-image">
-                                    <div class="article-body">
-                                        <span class="article-category">Teknologi Hijau</span>
-                                        <h3 class="article-title">Startup Lokal Kembangkan Teknologi Drone untuk Pemantauan Hutan</h3>
-                                        <div class="article-footer">
-                                            <span class="article-date">
-                                                <i class="far fa-calendar"></i>
-                                                8 Jan 2024
-                                            </span>
-                                            <span class="article-views">
-                                                <i class="far fa-eye"></i>
-                                                2.7K
-                                            </span>
-                                        </div>
-                                    </div>
-                                </article>
-
-                                <!-- Article 5 -->
-                                <article class="article-card">
-                                    <img src="https://images.unsplash.com/photo-1418065460487-3e41a6c84dc5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Biodiversity" class="article-image">
-                                    <div class="article-body">
-                                        <span class="article-category">Keanekaragaman Hayati</span>
-                                        <h3 class="article-title">Penemuan Spesies Baru di Hutan Papua: Harapan untuk Konservasi</h3>
-                                        <div class="article-footer">
-                                            <span class="article-date">
-                                                <i class="far fa-calendar"></i>
-                                                5 Jan 2024
-                                            </span>
-                                            <span class="article-views">
-                                                <i class="far fa-eye"></i>
-                                                4.2K
-                                            </span>
-                                        </div>
-                                    </div>
-                                </article>
-
-                                <!-- Article 6 -->
-                                <article class="article-card">
-                                    <img src="https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Regulation" class="article-image">
-                                    <div class="article-body">
-                                        <span class="article-category">Regulasi</span>
-                                        <h3 class="article-title">Pemerintah Terbitkan Regulasi Baru untuk Pengelolaan Limbah B3</h3>
-                                        <div class="article-footer">
-                                            <span class="article-date">
-                                                <i class="far fa-calendar"></i>
-                                                3 Jan 2024
-                                            </span>
-                                            <span class="article-views">
-                                                <i class="far fa-eye"></i>
-                                                3.5K
-                                            </span>
-                                        </div>
-                                    </div>
-                                </article>
-                            </div>
-
-                            <!-- Pagination -->
-                            <div class="berita-pagination">
-                                <a href="#" class="pagination-prev">
-                                    <i class="fas fa-chevron-left"></i>
-                                    Sebelumnya
-                                </a>
-                                
-                                <nav aria-label="Page navigation">
-                                    <ul class="pagination-nav">
-                                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                        <li class="page-item active"><a class="page-link" href="#">2</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">4</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">5</a></li>
-                                    </ul>
-                                </nav>
-                                
-                                <a href="#" class="pagination-next">
-                                    Berikutnya
-                                    <i class="fas fa-chevron-right"></i>
-                                </a>
-                            </div>
+                                    <h3>Belum Ada Berita</h3>
+                                    <p>Belum ada berita yang dipublikasikan.</p>
+                                    @auth
+                                        @if(auth()->user()->role === 'admin')
+                                            <a href="{{ route('berita.create') }}" class="btn-tambah-berita">
+                                                <i class="fas fa-plus"></i>
+                                                Tambah Berita Pertama
+                                            </a>
+                                        @endif
+                                    @endauth
+                                </div>
+                            @endif
                         </main>
                     </div>
                 </div>
-                <!-- END UPDATE CODE -->
-                
             </div>
         </div>
     </div>
@@ -561,15 +687,38 @@
             }
         }
 
-        // Initialize and bind
+        // Hapus berita dengan konfirmasi
+        function hapusBerita(id) {
+            if (confirm('Apakah Anda yakin ingin menghapus berita ini?')) {
+                fetch('/admin/berita/' + id, {
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => {
+                    if (response.ok) {
+                        alert('Berita berhasil dihapus!');
+                        window.location.reload();
+                    } else {
+                        alert('Gagal menghapus berita.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Terjadi kesalahan.');
+                });
+            }
+        }
+
+        // Initialize
         document.addEventListener('DOMContentLoaded', () => {
-            // set initial state
             handleNavbarToggle();
             
-            // Add active class to sidebar menu items on click
+            // Sidebar menu active state
             document.querySelectorAll('.sidebar-menu a').forEach(link => {
                 link.addEventListener('click', function(e) {
-                    e.preventDefault();
                     document.querySelectorAll('.sidebar-menu a').forEach(item => {
                         item.classList.remove('active');
                     });
@@ -577,7 +726,7 @@
                 });
             });
             
-            // Add hover effect to article cards
+            // Hover effect artikel
             document.querySelectorAll('.article-card').forEach(card => {
                 card.addEventListener('mouseenter', function() {
                     this.style.transform = 'translateY(-8px)';
@@ -589,9 +738,7 @@
             });
         });
 
-        window.addEventListener('scroll', () => {
-            handleNavbarToggle();
-        });
+        window.addEventListener('scroll', handleNavbarToggle);
     </script>
 </body>
 </html>

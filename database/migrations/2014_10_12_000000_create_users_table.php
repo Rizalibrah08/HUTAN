@@ -1,4 +1,5 @@
 <?php
+// database/migrations/2024_01_01_000001_create_users_table.php
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -6,9 +7,6 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('users', function (Blueprint $table) {
@@ -17,14 +15,19 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->enum('role', ['admin', 'super_admin'])->default('admin');
             $table->rememberToken();
             $table->timestamps();
+            $table->softDeletes(); // optional: untuk soft delete
+        });
+
+        // Create index for faster queries
+        Schema::table('users', function (Blueprint $table) {
+            $table->index('role');
+            $table->index('email');
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('users');

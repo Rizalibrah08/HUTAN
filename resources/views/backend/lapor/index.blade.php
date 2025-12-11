@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
@@ -382,6 +383,16 @@
             font-size: 1rem;
         }
 
+        /* CSS Variables */
+        :root {
+            --cream: #E5D9B6;
+            --sage: #A4BE7B;
+            --green: #5F8D4E;
+            --dark-green: #285430;
+            --text-light: #6c757d;
+            --text-medium: #495057;
+        }
+
         /* Responsive Design */
         @media (max-width: 992px) {
             .form-pengaduan-layout {
@@ -523,19 +534,24 @@
                             </div>
 
                             <div class="form-card">
-                                <form id="pengaduanForm">
-                                    <!-- Judul Laporan -->
+                                <!-- PERUBAHAN PENTING: Form dengan action ke Laravel route -->
+                                <form id="pengaduanForm" action="{{ route('lapor.store') }}" method="POST" enctype="multipart/form-data">
+                                    @csrf <!-- INI WAJIB ADA! -->
+                                    
+                                    <!-- Email Pelapor -->
                                     <div class="form-group">
-                                        <label class="form-label required" for="judulLaporan">
+                                        <label class="form-label required" for="emailPelapor">
                                             <i class="fas fa-envelope"></i>
                                             Email Pelapor
                                         </label>
                                         <input 
                                             type="email" 
                                             id="emailPelapor"
+                                            name="email" 
                                             class="form-control-custom"
                                             placeholder="Contoh: user@email.com"
                                             required
+                                            value="{{ old('email') }}"
                                         >
                                         <small class="text-muted" style="display: block; margin-top: 0.5rem; color: var(--text-light);">
                                             Gunakan email aktif untuk komunikasi lebih lanjut
@@ -551,9 +567,11 @@
                                         <input 
                                             type="text" 
                                             id="judulLaporan"
+                                            name="judul" 
                                             class="form-control-custom"
                                             placeholder="Contoh: Penebangan Liar di Hutan Lindung"
                                             required
+                                            value="{{ old('judul') }}"
                                         >
                                         <small class="text-muted" style="display: block; margin-top: 0.5rem; color: var(--text-light);">
                                             Buat judul yang jelas dan deskriptif untuk membantu penanganan
@@ -568,11 +586,12 @@
                                         </label>
                                         <textarea 
                                             id="isiLaporan"
+                                            name="isi" 
                                             class="form-control-custom"
                                             placeholder="Jelaskan secara detail kejadian yang Anda laporkan. Sertakan informasi waktu, tempat, dan kronologi kejadian."
                                             rows="6"
                                             required
-                                        ></textarea>
+                                        >{{ old('isi') }}</textarea>
                                         <small class="text-muted" style="display: block; margin-top: 0.5rem; color: var(--text-light);">
                                             Minimal 100 karakter. Jelaskan dengan jelas agar laporan dapat ditindaklanjuti
                                         </small>
@@ -588,8 +607,10 @@
                                             <input 
                                                 type="date" 
                                                 id="tanggalKejadian"
+                                                name="tanggal" 
                                                 class="form-control-custom"
                                                 required
+                                                value="{{ old('tanggal') }}"
                                             >
                                         </div>
                                         <div style="flex: 2;">
@@ -600,9 +621,11 @@
                                             <input 
                                                 type="text" 
                                                 id="lokasiKejadian"
+                                                name="lokasi" 
                                                 class="form-control-custom"
                                                 placeholder="Contoh: Jl. Hutan Lindung No. 123, Kecamatan Sukamaju"
                                                 required
+                                                value="{{ old('lokasi') }}"
                                             >
                                         </div>
                                     </div>
@@ -613,14 +636,14 @@
                                             <i class="fas fa-tags"></i>
                                             Kategori Laporan
                                         </label>
-                                        <select id="kategoriLaporan" class="form-control-custom" required>
+                                        <select id="kategoriLaporan" name="kategori" class="form-control-custom" required>
                                             <option value="" disabled selected>Pilih kategori laporan</option>
-                                            <option value="fasilitas">Fasilitas Publik</option>
-                                            <option value="keamanan">Keamanan Lingkungan</option>
-                                            <option value="layanan">Layanan Publik</option>
-                                            <option value="lingkungan">Kerusakan Lingkungan</option>
-                                            <option value="sampah">Pengelolaan Sampah</option>
-                                            <option value="polusi">Polusi Udara/Air</option>
+                                            <option value="fasilitas" {{ old('kategori') == 'fasilitas' ? 'selected' : '' }}>Fasilitas Publik</option>
+                                            <option value="keamanan" {{ old('kategori') == 'keamanan' ? 'selected' : '' }}>Keamanan Lingkungan</option>
+                                            <option value="layanan" {{ old('kategori') == 'layanan' ? 'selected' : '' }}>Layanan Publik</option>
+                                            <option value="lingkungan" {{ old('kategori') == 'lingkungan' ? 'selected' : '' }}>Kerusakan Lingkungan</option>
+                                            <option value="sampah" {{ old('kategori') == 'sampah' ? 'selected' : '' }}>Pengelolaan Sampah</option>
+                                            <option value="polusi" {{ old('kategori') == 'polusi' ? 'selected' : '' }}>Polusi Udara/Air</option>
                                         </select>
                                     </div>
 
@@ -647,6 +670,7 @@
                                             <input 
                                                 type="file" 
                                                 id="lampiran"
+                                                name="lampiran[]" 
                                                 class="file-input"
                                                 multiple
                                                 accept=".jpg,.jpeg,.png,.pdf,.doc,.docx"
@@ -679,6 +703,24 @@
                                         </button>
                                     </div>
                                 </form>
+                                
+                                <!-- Tampilkan error validasi jika ada -->
+                                @if ($errors->any())
+                                    <div class="alert alert-danger mt-3">
+                                        <ul class="mb-0">
+                                            @foreach ($errors->all() as $error)
+                                                <li>{{ $error }}</li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                @endif
+                                
+                                <!-- Tampilkan success message jika ada -->
+                                @if (session('success'))
+                                    <div class="alert alert-success mt-3">
+                                        {{ session('success') }}
+                                    </div>
+                                @endif
                             </div>
                         </main>
                     </div>
@@ -885,27 +927,13 @@
                 return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
             }
             
-            // Form submission
+            // PERUBAHAN PENTING: Form submission ke Laravel
             const form = document.getElementById('pengaduanForm');
-            form.addEventListener('submit', function(e) {
+            form.addEventListener('submit', async function(e) {
                 e.preventDefault();
                 
-                // Basic validation
-                const judul = document.getElementById('judulLaporan').value.trim();
-                const isi = document.getElementById('isiLaporan').value.trim();
-                const tanggal = document.getElementById('tanggalKejadian').value;
-                const lokasi = document.getElementById('lokasiKejadian').value.trim();
-                const kategori = document.getElementById('kategoriLaporan').value;
-                
-                if (!judul || !isi || !tanggal || !lokasi || !kategori) {
-                    alert('Harap lengkapi semua field yang wajib diisi');
-                    return;
-                }
-                
-                if (isi.length < 100) {
-                    alert('Isi laporan minimal 100 karakter');
-                    return;
-                }
+                // Validasi form
+                if (!validateForm()) return;
                 
                 // Show loading state
                 const submitBtn = form.querySelector('.submit-btn');
@@ -913,26 +941,85 @@
                 submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Mengirim...';
                 submitBtn.disabled = true;
                 
-                // Simulate API call
-                setTimeout(() => {
-                    // Show success message
-                    submitBtn.innerHTML = '<i class="fas fa-check"></i> Terkirim!';
-                    submitBtn.style.background = 'linear-gradient(135deg, #27ae60, #2ecc71)';
+                try {
+                    // Buat FormData dari form
+                    const formData = new FormData(form);
                     
-                    // Reset form after 2 seconds
-                    setTimeout(() => {
-                        form.reset();
-                        files = [];
-                        updateFileList();
-                        submitBtn.innerHTML = originalText;
-                        submitBtn.disabled = false;
-                        submitBtn.style.background = 'linear-gradient(135deg, var(--green) 0%, var(--dark-green) 100%)';
-                        
-                        // Show success notification
-                        showNotification('Laporan berhasil dikirim! Anda akan mendapatkan email konfirmasi.', 'success');
-                    }, 2000);
-                }, 2000);
+                    // Tambahkan files yang dipilih
+                    files.forEach((file, index) => {
+                        formData.append('lampiran[]', file);
+                    });
+                    
+                    // Kirim ke server Laravel
+                    // Cek dulu apakah elemen ada
+                    const csrfToken = document.querySelector('meta[name="csrf-token"]');
+
+                    const response = await fetch(form.action, {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        }
+                    });
+                    
+                    if (response.redirected) {
+                        // Jika redirect (berhasil), ikuti redirect
+                        window.location.href = response.url;
+                    } else if (response.ok) {
+                        const result = await response.json();
+                        if (result.redirect) {
+                            window.location.href = result.redirect;
+                        }
+                    } else {
+                        const error = await response.json();
+                        throw new Error(error.message || 'Gagal mengirim laporan');
+                    }
+                    
+                } catch (error) {
+                    // Show error message
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.disabled = false;
+                    showNotification('Gagal mengirim laporan: ' + error.message, 'error');
+                }
             });
+            
+            // Fungsi validasi
+            function validateForm() {
+                const email = document.getElementById('emailPelapor').value.trim();
+                const judul = document.getElementById('judulLaporan').value.trim();
+                const isi = document.getElementById('isiLaporan').value.trim();
+                const tanggal = document.getElementById('tanggalKejadian').value;
+                const lokasi = document.getElementById('lokasiKejadian').value.trim();
+                const kategori = document.getElementById('kategoriLaporan').value;
+                
+                // Validasi email
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(email)) {
+                    alert('Format email tidak valid. Contoh: nama@email.com');
+                    return false;
+                }
+                
+                // Validasi field wajib
+                if (!email || !judul || !isi || !tanggal || !lokasi || !kategori) {
+                    alert('Harap lengkapi semua field yang wajib diisi');
+                    return false;
+                }
+                
+                // Validasi panjang isi
+                if (isi.length < 100) {
+                    alert('Isi laporan minimal 100 karakter');
+                    return false;
+                }
+                
+                // Validasi tanggal (tidak boleh lebih dari hari ini)
+                const today = new Date().toISOString().split('T')[0];
+                if (tanggal > today) {
+                    alert('Tanggal kejadian tidak boleh lebih dari hari ini');
+                    return false;
+                }
+                
+                return true;
+            }
             
             function showNotification(message, type) {
                 const notification = document.createElement('div');
@@ -956,7 +1043,7 @@
                     padding: 1.5rem;
                     border-radius: 12px;
                     box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-                    border-left: 4px solid ${type === 'success' ? 'var(--green)' : '#e74c3c'};
+                    border-left: 4px solid ${type === 'success' ? '#5F8D4E' : '#e74c3c'};
                     display: flex;
                     justify-content: space-between;
                     align-items: center;

@@ -151,7 +151,7 @@
                                 </p>
                             </div>
                             <div class="btn-lapor">
-                                <a href="/laporpak" class="btn-lapor-btn">
+                                <a href="/lapor" class="btn-lapor-btn">
                                     <i class="fas fa-bullhorn me-2"></i>
                                     Lapor Pak!
                                 </a>
