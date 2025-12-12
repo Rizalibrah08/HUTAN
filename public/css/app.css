@@ -812,6 +812,100 @@ footer .bg-secondary {
     background-color: rgba(255, 255, 255, 0.1) !important;
 }
 
+/* Tambahkan/update di CSS */
+/* ===== AUTO SLIDER INDICATORS (MAX 3) ===== */
+.slider-indicators {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.6rem; /* Lebih kecil */
+    margin-top: 1.5rem;
+    padding: 0.5rem;
+    max-width: 150px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.slider-indicator {
+    width: 10px; /* Lebih kecil */
+    height: 10px;
+    border-radius: 50%;
+    background: var(--sage);
+    opacity: 0.5;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    flex-shrink: 0;
+}
+
+.slider-indicator.active {
+    opacity: 1;
+    transform: scale(1.3); /* Sedikit lebih besar saat aktif */
+    background: var(--green);
+    box-shadow: 0 0 10px rgba(95, 141, 78, 0.5);
+}
+
+.slider-indicator:hover {
+    opacity: 0.8;
+    transform: scale(1.2);
+}
+
+/* Animasi pulse untuk indicator aktif */
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(95, 141, 78, 0.4);
+    }
+    70% {
+        box-shadow: 0 0 0 6px rgba(95, 141, 78, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(95, 141, 78, 0);
+    }
+}
+
+.slider-indicator.active {
+    animation: pulse 2s infinite;
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 768px) {
+    .slider-indicators {
+        margin-top: 1rem;
+        gap: 0.5rem;
+    }
+    
+    .slider-indicator {
+        width: 8px;
+        height: 8px;
+    }
+    
+    .slider-indicator.active {
+        transform: scale(1.2);
+    }
+}
+
+/* Smooth auto-slide animation */
+@keyframes autoSlideHint {
+    0% {
+        transform: translateX(0);
+    }
+    50% {
+        transform: translateX(5px);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+
+/* .slider-nav.next {
+    animation: autoSlideHint 2s infinite;
+}
+
+/* Hentikan animasi saat hover */
+/* .slider-nav.next:hover {
+    animation: none;
+} */ 
+
 /* ===== RESPONSIVE DESIGN ===== */
 
 /* Desktop Large (1100px and above) */
@@ -1584,6 +1678,32 @@ footer .bg-secondary {
 }
 
 /* Slider News Card */
+/* resources/css/app.css */
+/* ===== SLIDER NEWS SECTION ===== */
+
+.slider-news-grid {
+    position: relative;
+    overflow: hidden;
+    padding-left: 0;
+    padding-right: 0;
+    margin: 0 20px;
+}
+
+.slider-news-wrapper {
+    display: flex;
+    gap: 2rem;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding: 1rem 0.5rem 2rem;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none; /* Hide scrollbar Firefox */
+    -ms-overflow-style: none; /* Hide scrollbar IE/Edge */
+}
+
+.slider-news-wrapper::-webkit-scrollbar {
+    display: none; /* Hide scrollbar Chrome/Safari */
+}
+
 .slider-news-card {
     min-width: 320px;
     max-width: 320px;
@@ -1591,15 +1711,38 @@ footer .bg-secondary {
     border-radius: 16px;
     overflow: hidden;
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
-    transition: all 0.3s ease;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     scroll-snap-align: start;
     cursor: pointer;
     flex-shrink: 0;
+    position: relative;
+    opacity: 0.9;
 }
 
 .slider-news-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 15px 40px rgba(95, 141, 78, 0.15);
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 20px 50px rgba(95, 141, 78, 0.2);
+    opacity: 1;
+    z-index: 10;
+}
+
+/* Gradient overlay untuk efek hover */
+.slider-news-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(40, 84, 48, 0) 0%, rgba(40, 84, 48, 0.05) 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    border-radius: 16px;
+    pointer-events: none;
+}
+
+.slider-news-card:hover::after {
+    opacity: 1;
 }
 
 .slider-news-card img {
@@ -1607,21 +1750,36 @@ footer .bg-secondary {
     height: 200px;
     object-fit: cover;
     display: block;
+    transition: transform 0.6s ease;
+}
+
+.slider-news-card:hover img {
+    transform: scale(1.05);
 }
 
 .slider-news-body {
     padding: 1.5rem;
+    position: relative;
+    background: white;
+    z-index: 2;
 }
 
 .slider-news-tag {
     display: inline-block;
-    background: var(--sage);
+    background: linear-gradient(135deg, var(--sage) 0%, var(--green) 100%);
     color: white;
     padding: 0.4rem 1rem;
     border-radius: 20px;
     font-size: 0.85rem;
     font-weight: 600;
     margin-bottom: 1rem;
+    box-shadow: 0 3px 10px rgba(164, 190, 123, 0.3);
+    transition: all 0.3s ease;
+}
+
+.slider-news-card:hover .slider-news-tag {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(164, 190, 123, 0.4);
 }
 
 .slider-news-title {
@@ -1636,6 +1794,11 @@ footer .bg-secondary {
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
+    transition: color 0.3s ease;
+}
+
+.slider-news-card:hover .slider-news-title {
+    color: var(--green);
 }
 
 .slider-news-footer {
@@ -1646,6 +1809,11 @@ footer .bg-secondary {
     color: #666;
     border-top: 1px solid rgba(0, 0, 0, 0.05);
     padding-top: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.slider-news-card:hover .slider-news-footer {
+    border-top-color: rgba(164, 190, 123, 0.3);
 }
 
 .slider-views {
@@ -1654,42 +1822,302 @@ footer .bg-secondary {
     gap: 0.3rem;
     color: var(--green);
     font-weight: 600;
+    transition: color 0.3s ease;
 }
 
-/* Slider Navigation Buttons */
+.slider-news-card:hover .slider-views {
+    color: var(--dark-green);
+}
+
+/* Stretched Link untuk klik seluruh card */
+.stretched-link {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 5;
+    opacity: 0;
+}
+
+/* ===== CARD LIAT LAINNYA ===== */
+.slider-news-card.lihat-lainnya-card {
+    background: linear-gradient(135deg, var(--green) 0%, var(--dark-green) 100%);
+    border: none;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 2rem 1.5rem;
+    cursor: pointer;
+}
+
+.slider-news-card.lihat-lainnya-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 20px 50px rgba(95, 141, 78, 0.3);
+    background: linear-gradient(135deg, var(--dark-green) 0%, var(--green) 100%);
+}
+
+.lihat-lainnya-icon {
+    font-size: 3.5rem;
+    margin-bottom: 1.5rem;
+    opacity: 0.9;
+    transition: all 0.4s ease;
+}
+
+.slider-news-card.lihat-lainnya-card:hover .lihat-lainnya-icon {
+    transform: translateY(-5px) rotate(-5deg);
+    opacity: 1;
+}
+
+.lihat-lainnya-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 0.8rem;
+    transition: all 0.3s ease;
+}
+
+.slider-news-card.lihat-lainnya-card:hover .lihat-lainnya-title {
+    transform: scale(1.05);
+}
+
+.lihat-lainnya-text {
+    font-size: 1rem;
+    opacity: 0.9;
+    margin-bottom: 1.5rem;
+    line-height: 1.5;
+    transition: opacity 0.3s ease;
+}
+
+.slider-news-card.lihat-lainnya-card:hover .lihat-lainnya-text {
+    opacity: 1;
+}
+
+.lihat-lainnya-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 0.8rem 1.8rem;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    text-decoration: none;
+    border-radius: 50px;
+    font-weight: 600;
+    transition: all 0.4s ease;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(5px);
+    position: relative;
+    overflow: hidden;
+    z-index: 2;
+}
+
+.lihat-lainnya-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.6s ease;
+    z-index: -1;
+}
+
+.slider-news-card.lihat-lainnya-card:hover .lihat-lainnya-btn::before {
+    left: 100%;
+}
+
+.lihat-lainnya-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-3px);
+    border-color: rgba(255, 255, 255, 0.5);
+    box-shadow: 0 10px 25px rgba(255, 255, 255, 0.2);
+}
+
+.lihat-lainnya-stats {
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    width: 100%;
+    font-size: 0.9rem;
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+}
+
+.slider-news-card.lihat-lainnya-card:hover .lihat-lainnya-stats {
+    opacity: 1;
+}
+
+/* ===== SLIDER NAVIGATION BUTTONS ===== */
 .slider-nav {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    background: var(--green);
+    background: linear-gradient(135deg, var(--green) 0%, var(--dark-green) 100%);
     color: white;
     border: none;
-    width: 50px;
-    height: 50px;
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.2rem;
-    transition: all 0.3s ease;
-    z-index: 10;
-    opacity: 0.9;
+    font-size: 1.5rem;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 20;
+    opacity: 0.8;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
 }
 
 .slider-nav:hover {
-    background: var(--dark-green);
-    transform: translateY(-50%) scale(1.1);
+    background: linear-gradient(135deg, var(--dark-green) 0%, var(--green) 100%);
+    transform: translateY(-50%) scale(1.15);
     opacity: 1;
-    box-shadow: 0 5px 20px rgba(95, 141, 78, 0.3);
+    box-shadow: 0 10px 30px rgba(95, 141, 78, 0.4);
 }
 
 .slider-nav.prev {
-    left: 10px;
+    left: -25px;
 }
 
 .slider-nav.next {
-    right: 10px;
+    right: -25px;
+}
+
+/* ===== AUTO SLIDER INDICATORS ===== */
+.slider-indicators {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.8rem;
+    margin-top: 2rem;
+    padding: 0.5rem;
+}
+
+.slider-indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--sage);
+    opacity: 0.5;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.slider-indicator.active {
+    opacity: 1;
+    transform: scale(1.2);
+    background: var(--green);
+}
+
+.slider-indicator:hover {
+    opacity: 0.8;
+    transform: scale(1.1);
+}
+
+/* Animation untuk auto-slide */
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.slider-news-card {
+    animation: slideInRight 0.5s ease-out;
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 992px) {
+    .slider-nav {
+        width: 50px;
+        height: 50px;
+        font-size: 1.2rem;
+    }
+    
+    .slider-nav.prev {
+        left: -15px;
+    }
+    
+    .slider-nav.next {
+        right: -15px;
+    }
+}
+
+@media (max-width: 768px) {
+    .slider-news-card {
+        min-width: 280px;
+        max-width: 280px;
+    }
+    
+    .slider-news-grid {
+        margin: 0 10px;
+    }
+    
+    .slider-nav {
+        width: 45px;
+        height: 45px;
+        font-size: 1.1rem;
+        opacity: 0.7;
+    }
+    
+    .slider-nav:hover {
+        opacity: 1;
+    }
+    
+    .lihat-lainnya-icon {
+        font-size: 3rem;
+    }
+    
+    .lihat-lainnya-title {
+        font-size: 1.2rem;
+    }
+    
+    .lihat-lainnya-btn {
+        padding: 0.6rem 1.5rem;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .slider-news-card {
+        min-width: 260px;
+        max-width: 260px;
+    }
+    
+    .slider-news-wrapper {
+        gap: 1.5rem;
+    }
+    
+    .slider-nav {
+        display: none; /* Sembunyikan tombol nav di mobile kecil */
+    }
+    
+    .slider-news-grid:hover .slider-nav {
+        display: flex;
+    }
+    
+    .slider-news-body {
+        padding: 1.2rem;
+    }
+    
+    .slider-news-title {
+        font-size: 1.1rem;
+        min-height: 3em;
+    }
+}
+
+/* Smooth scroll behavior */
+html {
+    scroll-behavior: smooth;
 }
 
 /* ===== LAPORAN SECTION ===== */

@@ -23,7 +23,6 @@ Route::prefix('lapor')->name('lapor.')->group(function () {
 });
 
 // BERITA ROUTES
-// Public routes (bisa diakses semua user)
 Route::get('/berita', [BeritaController::class, 'index'])->name('berita.index');
 Route::get('/berita/{id}', [BeritaController::class, 'show'])->name('berita.show');
 
@@ -36,10 +35,19 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 Route::middleware(['auth'])->group(function () {
     // BERITA ADMIN ROUTES
     Route::get('/admin/berita/create', [BeritaController::class, 'create'])->name('berita.create');
-    Route::post('/admin/berita', [BeritaController::class, 'store'])->name('berita.store'); // INI YANG DIBUTUHKAN!
+    Route::post('/admin/berita', [BeritaController::class, 'store'])->name('berita.store');
     Route::get('/admin/berita/{id}/edit', [BeritaController::class, 'edit'])->name('berita.edit');
     Route::put('/admin/berita/{id}', [BeritaController::class, 'update'])->name('berita.update');
     Route::delete('/admin/berita/{id}', [BeritaController::class, 'destroy'])->name('berita.destroy');
+    
+    // ===== LAPOR ADMIN ROUTES =====
+    Route::get('/lapor/laporan', [LaporController::class, 'laporan'])->name('lapor.laporan');
+    
+    // ROUTES BARU UNTUK FITUR LAPORAN ADMIN
+    Route::prefix('admin/laporan')->name('admin.laporan.')->group(function () {
+        Route::get('/{id}/detail', [LaporController::class, 'show'])->name('detail');
+        Route::post('/{id}/update-status', [LaporController::class, 'updateStatus'])->name('update-status');
+    });
     
     // Dashboard admin
     Route::get('/admin/dashboard', function () {
@@ -48,4 +56,5 @@ Route::middleware(['auth'])->group(function () {
         }
         return view('admin.dashboard');
     })->name('admin.dashboard');
+
 });

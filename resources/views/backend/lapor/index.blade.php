@@ -105,6 +105,82 @@
             border-radius: 50%;
         }
 
+        /* Menu Admin Khusus */
+        .admin-section {
+            margin-top: 3rem;
+            padding-top: 2.5rem;
+            border-top: 2px solid rgba(164, 190, 123, 0.2);
+        }
+
+        .admin-section-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--dark-green);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .admin-section-title i {
+            color: var(--green);
+        }
+
+        .admin-menu-item {
+            display: block;
+            width: 100%;
+            padding: 1.2rem 1.5rem;
+            background: linear-gradient(135deg, rgba(164, 190, 123, 0.1) 0%, rgba(95, 141, 78, 0.1) 100%);
+            border: 2px solid rgba(164, 190, 123, 0.3);
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--dark-green);
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .admin-menu-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(164, 190, 123, 0.2), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .admin-menu-item:hover::before {
+            left: 100%;
+        }
+
+        .admin-menu-item:hover {
+            background: linear-gradient(135deg, rgba(164, 190, 123, 0.2) 0%, rgba(95, 141, 78, 0.2) 100%);
+            transform: translateX(5px) scale(1.02);
+            border-color: var(--green);
+            box-shadow: 0 8px 20px rgba(164, 190, 123, 0.15);
+        }
+
+        /* Badge untuk admin */
+        .admin-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--sage) 0%, var(--green) 100%);
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            margin-left: 0.5rem;
+            vertical-align: middle;
+        }
+
         /* Form Content - 75% */
         .form-content {
             flex: 1;
@@ -948,6 +1024,23 @@
                                     <i class="fas fa-headset me-2"></i>
                                     Kontak Support
                                 </button>
+                                
+                                <!-- Section Admin -->
+                                @auth
+                                    @if(auth()->user()->role === 'admin')
+                                    <div class="admin-section">
+                                        <h4 class="admin-section-title">
+                                            <i class="fas fa-user-shield"></i>
+                                            Admin Panel
+                                        </h4>
+                                        <button class="admin-menu-item" id="adminLaporanBtn">
+                                            <i class="fas fa-eye me-2"></i>
+                                            Lihat Laporan
+                                            <span class="admin-badge">ADMIN</span>
+                                        </button>
+                                    </div>
+                                    @endif
+                                @endauth
                             </div>
                         </aside>
 
@@ -1541,6 +1634,12 @@
             }
         }
 
+        // Fungsi untuk redirect ke halaman admin laporan
+        function redirectToAdminLaporan() {
+            // Redirect ke route laporan admin
+            window.location.href = "{{ route('lapor.laporan') }}";
+        }
+
         // Navbar transparency toggle
         function handleNavbarToggle() {
             const navContainer = document.querySelector('.nav-container');
@@ -1914,6 +2013,12 @@
             
             // Initialize file upload manager
             fileUploadManager = new FileUploadManager();
+            
+            // Setup admin laporan button
+            const adminLaporanBtn = document.getElementById('adminLaporanBtn');
+            if (adminLaporanBtn) {
+                adminLaporanBtn.addEventListener('click', redirectToAdminLaporan);
+            }
             
             // Form submission untuk pengaduan
             const form = document.getElementById('pengaduanForm');
