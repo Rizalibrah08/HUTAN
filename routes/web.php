@@ -26,6 +26,13 @@ Route::prefix('lapor')->name('lapor.')->group(function () {
 Route::get('/berita', [BeritaController::class, 'index'])->name('berita.index');
 Route::get('/berita/{id}', [BeritaController::class, 'show'])->name('berita.show');
 
+// Search routes - HARUS SEBELUM resource berita
+Route::get('/berita/search/suggest', [BeritaController::class, 'searchSuggest'])->name('berita.search.suggest');
+Route::get('/berita/search', [BeritaController::class, 'search'])->name('berita.search');
+
+// Berita routes
+Route::resource('berita', BeritaController::class);
+
 // Login Routes
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
@@ -57,4 +64,5 @@ Route::middleware(['auth'])->group(function () {
         return view('admin.dashboard');
     })->name('admin.dashboard');
 
+    
 });
