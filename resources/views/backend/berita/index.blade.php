@@ -523,6 +523,21 @@
                         @endauth
                     </div>
 
+                    @if(isset($query) && $query)
+    <div class="search-results-info mb-4">
+        <div class="alert alert-info d-flex align-items-center justify-content-between">
+            <div>
+                <i class="fas fa-search me-2"></i>
+                Menampilkan hasil untuk: <strong>"{{ $query }}"</strong>
+                <span class="ms-2 text-muted">({{ $berita->total() }} hasil ditemukan)</span>
+            </div>
+            <a href="{{ route('berita.index') }}" class="btn btn-sm btn-outline-dark">
+                <i class="fas fa-times"></i> Hapus filter
+            </a>
+        </div>
+    </div>
+    @endif
+
                     <div class="berita-layout">
                         <!-- Sidebar - 25% -->
                         <aside class="berita-sidebar">
